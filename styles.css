@@ -31,3 +31,11 @@ a {
 #dragPoint {
 	cursor: pointer;
 }
+
+.form-group input {
+	margin-top: 5px;
+}
+
+.form-group {
+	margin-top: 10px;
+}

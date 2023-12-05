@@ -1,7 +1,7 @@
 var width = 0;
 var height = 0;
 
-var rayLength = 0.25;
+var rayLength = 0.15;
 
 var animatedAngle = 45;
 var animationSpeed = 0.5;
@@ -10,15 +10,34 @@ var arrayID = 4;
 var n1 = 1.00027653;
 var n2 = 1.3317;
 
+const indices ={
+  "vacuo": 1.0,
+  "ar": 1.0,
+  "agua": 1.33,
+  "etanol": 1.36,
+  "glicerina": 1.47,
+  "acrilico": 1.49,
+  "vidro": 1.52,
+  "safira": 1.77,
+  "diamante": 2.42
+}
+
 $(document).ready(function () {
   width = $(document).width();
   height = $(document).height();
 
   //menu config
-  $("#n1").find('[data-bind="bs-drp-sel-label"]').text("Air (under STP)");
-  $("#n2").find('[data-bind="bs-drp-sel-label"]').text("Water");
-  $("#n1text").val(1.00027653);
-  $("#n2text").val(1.3317);
+  $("#n1").on("click", (e) => {
+    $("#n1text").val(indices[e.target.value]);
+    n1 = indices[e.target.value]
+    updateAngle(animatedAngle);
+  });
+
+  $("#n2").on("click", (e) => {
+    $("#n2text").val(indices[e.target.value]);
+    n2 = indices[e.target.value]
+    updateAngle(animatedAngle);
+  });
 
   $(document).on(
     "click",
@@ -120,6 +139,19 @@ $(document).ready(function () {
     .attr("width", width)
     .attr("height", height)
     .append("g");
+
+  // svg
+  //   .append("rect")
+  //   .attr("width", "100%")
+  //   .attr("height", "50%")
+  //   .attr("fill", "green");
+
+  // svg
+  //   .append("rect")
+  //   .attr("width", "100%")
+  //   .attr("height", "50%")
+  //   .attr("transform", `translate(0, ${height / 2})`)
+  //   .attr("fill", "pink");
 
   var viewport = svg.append("g");
 
