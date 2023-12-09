@@ -7,8 +7,8 @@ var animatedAngle = 45;
 var animationSpeed = 0.5;
 var arrayID = 4;
 
-var n1 = 1.00027653;
-var n2 = 1.3317;
+var n1 = 1.0;
+var n2 = 1.0;
 
 const indices = {
   vacuo: 1.0,
@@ -26,7 +26,6 @@ $(document).ready(function () {
   width = $(document).width();
   height = $(document).height();
 
-  //menu config
   $("#n1").on("click", (e) => {
     $("#n1text").val(indices[e.target.value]);
     n1 = indices[e.target.value];
@@ -61,7 +60,7 @@ $(document).ready(function () {
           $("#n2text").val(n2.toString());
           updateAngle(animatedAngle);
         } else {
-          $("#n2text").val(""); //not quite good, since it implies old value is already overwritten..
+          $("#n2text").val("");
         }
       } else {
         num = parseInt($target.attr("data-value")) - 1;
@@ -88,46 +87,6 @@ $(document).ready(function () {
     }
   );
 
-  $("#n1text").on("input", function (e) {
-    if ($(this).data("lastval") != $(this).val()) {
-      $(this).data("lastval", $(this).val());
-      //change action
-      if ($("#n1text").val() == "1") {
-        //I don't really care about the other materials..
-        $("#n1").find('[data-bind="bs-drp-sel-label"]').text("Vacuum");
-      } else {
-        $("#n1").find('[data-bind="bs-drp-sel-label"]').text("Other");
-      }
-      if (isNaN(parseFloat($("#n1text").val()))) {
-        $("#n1").find('[data-bind="bs-drp-sel-label"]').text("Vacuum");
-        n1 = 1;
-      } else {
-        n1 = parseFloat($("#n1text").val());
-      }
-      updateAngle(animatedAngle);
-    }
-  });
-
-  $("#n2text").on("input", function (e) {
-    if ($(this).data("lastval") != $(this).val()) {
-      $(this).data("lastval", $(this).val());
-      //change action
-      if ($("#n2text").val() == "1") {
-        //I don't really care about the other materials..
-        $("#n2").find('[data-bind="bs-drp-sel-label"]').text("Vacuum");
-      } else {
-        $("#n2").find('[data-bind="bs-drp-sel-label"]').text("Other");
-      }
-      if (isNaN(parseFloat($("#n2text").val()))) {
-        $("#n2").find('[data-bind="bs-drp-sel-label"]').text("Vacuum");
-        n2 = 1;
-      } else {
-        n2 = parseFloat($("#n2text").val());
-      }
-      updateAngle(animatedAngle);
-    }
-  });
-
   $("#button").on("click", function (event) {
     event.preventDefault();
     updateAngle(90 - parseFloat($("#setAngle").val()));
@@ -140,19 +99,6 @@ $(document).ready(function () {
     .attr("height", height)
     .append("g");
 
-  // svg
-  //   .append("rect")
-  //   .attr("width", "100%")
-  //   .attr("height", "50%")
-  //   .attr("fill", "green");
-
-  // svg
-  //   .append("rect")
-  //   .attr("width", "100%")
-  //   .attr("height", "50%")
-  //   .attr("transform", `translate(0, ${height / 2})`)
-  //   .attr("fill", "pink");
-
   var viewport = svg.append("g");
 
   var x = d3
@@ -161,7 +107,7 @@ $(document).ready(function () {
       width / 2 - (5000 * width) / height,
       width / 2 + (5000 * width) / height,
     ])
-    .domain([-50, 50]); //not very elegant...
+    .domain([-50, 50]);
   var y = d3
     .scaleLinear()
     .range([
@@ -170,20 +116,18 @@ $(document).ready(function () {
     ])
     .domain([50, -50]);
 
-  // Add the x Axis
   svg
     .append("g")
     .attr("transform", "translate(" + 0 + "," + height / 2 + ")")
     .call(d3.axisBottom(x));
 
-  // Add the y Axis
   svg
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + 0 + ")")
     .style("stroke-dasharray", "3, 3")
     .call(d3.axisLeft(y));
 
-  var rayIn = viewport
+  viewport
     .append("line")
     .attr("x1", width / 2)
     .attr("y1", height / 2)
@@ -193,7 +137,7 @@ $(document).ready(function () {
     .attr("stroke", "green")
     .attr("id", "rayIn");
 
-  var rayReflected = viewport
+  viewport
     .append("line")
     .attr("x1", width / 2)
     .attr("y1", height / 2)
@@ -203,7 +147,7 @@ $(document).ready(function () {
     .attr("stroke", "green")
     .attr("id", "rayReflected");
 
-  var rayRefracted = viewport
+  viewport
     .append("line")
     .attr("x1", width / 2)
     .attr("y1", height / 2)
@@ -221,7 +165,7 @@ $(document).ready(function () {
     .style("fill", "blue")
     .attr("id", "laserText");
 
-  var laser = viewport
+  viewport
     .append("rect")
     .attr("x", width * rayLength + width / 2)
     .attr("y", height / 2 - 10)
@@ -242,7 +186,6 @@ $(document).ready(function () {
         .on("end", dragended)
     );
 
-  // theta 1
   var angleIndicatorOuter = d3
     .arc()
     .innerRadius(50)
@@ -272,7 +215,6 @@ $(document).ready(function () {
     .style("fill", "red")
     .style("opacity", 0.25);
 
-  // theta 1'
   var angleIndicatorOuter = d3
     .arc()
     .innerRadius(50)
@@ -302,7 +244,6 @@ $(document).ready(function () {
     .style("fill", "orange")
     .style("opacity", 0.25);
 
-  // theta 2
   var angleIndicatorOuter = d3
     .arc()
     .innerRadius(50)
@@ -428,7 +369,6 @@ function updateAngle(deg) {
 
     d3.select("#anglePath2S").attr("d", angleIndicatorInner2);
 
-    //change ray path
     d3.select("#rayIn")
       .attr("x2", width / 2 + Math.cos(phi / 2) * width * rayLength)
       .attr("y2", height / 2 - Math.sin(phi / 2) * width * rayLength);
@@ -465,11 +405,10 @@ function updateAngle(deg) {
       })
       .raise();
 
-    //get rid of refracted ray since we have total reflection
     d3.select("#anglePath2S2").style("opacity", 0);
     d3.select("#anglePathS2").style("opacity", 0);
     d3.select("#rayRefracted").style("opacity", 0);
-    //apply this to the sign too
+    
     $("#theta_2").html("");
   } else {
     d3.select("#anglePath2S2").style("opacity", 0.25);
@@ -551,7 +490,7 @@ function updateAngle(deg) {
         "°"
     );
 
-    //change ray path
+
     d3.select("#rayIn")
       .attr("x2", width / 2 + Math.cos(phi / 2) * width * rayLength)
       .attr("y2", height / 2 - Math.sin(phi / 2) * width * rayLength);
