@@ -359,6 +359,7 @@ function updateAngle(deg) {
       .endAngle(phi / 2 - Math.PI / 2);
 
     d3.select("#anglePathS").attr("d", angleIndicatorOuter2);
+    d3.select("#anglePathS").style("opacity", 1);
 
     var angleIndicatorInner2 = d3
       .arc()
@@ -368,6 +369,7 @@ function updateAngle(deg) {
       .endAngle(phi / 2 - Math.PI / 2);
 
     d3.select("#anglePath2S").attr("d", angleIndicatorInner2);
+    d3.select("#anglePath2S").style("opacity", 0.25);
 
     d3.select("#rayIn")
       .attr("x2", width / 2 + Math.cos(phi / 2) * width * rayLength)
@@ -376,6 +378,8 @@ function updateAngle(deg) {
     d3.select("#rayReflected")
       .attr("x2", width / 2 + Math.sin(phi / 2 - Math.PI / 2) * 10 * width)
       .attr("y2", height / 2 - Math.cos(phi / 2 - Math.PI / 2) * 10 * width);
+
+    d3.select("#rayReflected").style("opacity", 1);
 
     d3.select("#laser").attr(
       "transform",
@@ -408,7 +412,7 @@ function updateAngle(deg) {
     d3.select("#anglePath2S2").style("opacity", 0);
     d3.select("#anglePathS2").style("opacity", 0);
     d3.select("#rayRefracted").style("opacity", 0);
-    
+
     $("#theta_2").html("");
   } else {
     d3.select("#anglePath2S2").style("opacity", 0.25);
@@ -453,6 +457,7 @@ function updateAngle(deg) {
       .endAngle(phi / 2 - Math.PI / 2);
 
     d3.select("#anglePathS").attr("d", angleIndicatorOuter2);
+    d3.select("#anglePathS").style("opacity", 1);
 
     var angleIndicatorInner2 = d3
       .arc()
@@ -462,6 +467,7 @@ function updateAngle(deg) {
       .endAngle(phi / 2 - Math.PI / 2);
 
     d3.select("#anglePath2S").attr("d", angleIndicatorInner2);
+    d3.select("#anglePath2S").style("opacity", 0.25);
 
     var phi2 =
       (Math.asin((n1 / n2) * Math.sin(phi / 2 - Math.PI / 2)) + Math.PI) * -1;
@@ -490,7 +496,6 @@ function updateAngle(deg) {
         "°"
     );
 
-
     d3.select("#rayIn")
       .attr("x2", width / 2 + Math.cos(phi / 2) * width * rayLength)
       .attr("y2", height / 2 - Math.sin(phi / 2) * width * rayLength);
@@ -498,6 +503,8 @@ function updateAngle(deg) {
     d3.select("#rayReflected")
       .attr("x2", width / 2 + Math.sin(phi / 2 - Math.PI / 2) * 10 * width)
       .attr("y2", height / 2 - Math.cos(phi / 2 - Math.PI / 2) * 10 * width);
+
+    d3.select("#rayReflected").style("opacity", 1);
 
     d3.select("#rayRefracted")
       .attr("x2", width / 2 + Math.sin(phi2) * 10 * width)
@@ -530,6 +537,15 @@ function updateAngle(deg) {
         y: height / 2 - (Math.sin(phi / 2) * height) / 2.5,
       })
       .raise();
+  }
+
+  if (n1 === n2) {
+    $("#theta_1_2").html("");
+
+    d3.select("#anglePathS").style("opacity", 0);
+    d3.select("#anglePath2S").style("opacity", 0);
+
+    d3.select("#rayReflected").style("opacity", 0);
   }
 }
 
