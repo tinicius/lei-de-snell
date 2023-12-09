@@ -10,17 +10,17 @@ var arrayID = 4;
 var n1 = 1.00027653;
 var n2 = 1.3317;
 
-const indices ={
-  "vacuo": 1.0,
-  "ar": 1.0,
-  "agua": 1.33,
-  "etanol": 1.36,
-  "glicerina": 1.47,
-  "acrilico": 1.49,
-  "vidro": 1.52,
-  "safira": 1.77,
-  "diamante": 2.42
-}
+const indices = {
+  vacuo: 1.0,
+  ar: 1.0,
+  agua: 1.33,
+  etanol: 1.36,
+  glicerina: 1.47,
+  acrilico: 1.49,
+  vidro: 1.52,
+  safira: 1.77,
+  diamante: 2.42,
+};
 
 $(document).ready(function () {
   width = $(document).width();
@@ -29,13 +29,13 @@ $(document).ready(function () {
   //menu config
   $("#n1").on("click", (e) => {
     $("#n1text").val(indices[e.target.value]);
-    n1 = indices[e.target.value]
+    n1 = indices[e.target.value];
     updateAngle(animatedAngle);
   });
 
   $("#n2").on("click", (e) => {
     $("#n2text").val(indices[e.target.value]);
-    n2 = indices[e.target.value]
+    n2 = indices[e.target.value];
     updateAngle(animatedAngle);
   });
 
