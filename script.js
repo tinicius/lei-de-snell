@@ -38,6 +38,24 @@ $(document).ready(function () {
     updateAngle(animatedAngle);
   });
 
+  $("#n1text").on("input", (e) => {
+    if (isNaN(Number(e.target.value))) {
+      n1 = 1;
+    }
+
+    n1 = Number(e.target.value);
+    updateAngle(animatedAngle);
+  });
+
+  $("#n2text").on("input", (e) => {
+    if (isNaN(Number(e.target.value))) {
+      n1 = 1;
+    }
+
+    n2 = Number(e.target.value);
+    updateAngle(animatedAngle);
+  });
+
   $(document).on(
     "click",
     ".bs-dropdown-to-select-group .dropdown-menu li",
